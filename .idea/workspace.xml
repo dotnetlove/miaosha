@@ -25,6 +25,7 @@
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/controller/ItemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/controller/ItemController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/controller/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/dao/ItemDOMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/dao/ItemDOMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/dao/ItemStockDOMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/dao/ItemStockDOMapper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/error/EmBusinessError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/error/EmBusinessError.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/czy/miaosha/service/ItemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/czy/miaosha/service/ItemService.class" afterDir="false" />
@@ -81,7 +82,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/czy/miaosha/service/impl/OrderServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="524">
@@ -117,11 +118,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$USER_HOME$/Desktop/getitem.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="70">
-              <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
+            <state relative-caret-position="444">
+              <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -211,12 +212,12 @@
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/controller/ItemController.java" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/controller/OrderController.java" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/controller/BaseController.java" />
-        <option value="$USER_HOME$/Desktop/getitem.html" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/service/ItemService.java" />
         <option value="$PROJECT_DIR$/src/main/resources/mapper/ItemDOMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/dao/ItemDOMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/service/impl/ItemServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/czy/miaosha/service/impl/OrderServiceImpl.java" />
+        <option value="$USER_HOME$/Desktop/getitem.html" />
       </list>
     </option>
   </component>
@@ -349,7 +350,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/templates" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/html" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -513,12 +514,12 @@
       <workItem from="1563610491496" duration="4115000" />
       <workItem from="1563622367388" duration="196000" />
       <workItem from="1563625083927" duration="8717000" />
-      <workItem from="1563635075062" duration="21801000" />
+      <workItem from="1563635075062" duration="22444000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117603000" />
+    <option name="totallyTimeSpent" value="118246000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -541,7 +542,7 @@
       <window_info anchor="bottom" id="Database Changes" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32956153" />
-      <window_info anchor="bottom" id="Run" order="9" weight="0.12987013" />
+      <window_info anchor="bottom" id="Run" order="9" weight="0.12889518" />
       <window_info anchor="bottom" id="Debug" order="10" weight="0.42776203" />
       <window_info anchor="bottom" id="Message" order="11" />
       <window_info anchor="bottom" id="Find" order="12" />
@@ -876,16 +877,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/getitem.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="70">
-          <caret line="98" column="61" selection-start-line="98" selection-start-column="61" selection-end-line="98" selection-end-column="61" />
-          <folding>
-            <element signature="n#style#0;n#img#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/czy/miaosha/controller/BaseController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -990,6 +981,16 @@
           <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/getitem.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
