@@ -91,7 +91,6 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
         }
         return userModel;
-
     }
 
     //UserModel———>UserDO

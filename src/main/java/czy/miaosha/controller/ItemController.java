@@ -14,9 +14,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
+@Controller("item")
 @RequestMapping("/item")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = {"*"})
 public class ItemController extends BaseController {
 
     @Autowired
