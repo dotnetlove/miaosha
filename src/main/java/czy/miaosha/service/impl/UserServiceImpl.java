@@ -8,10 +8,10 @@ import czy.miaosha.error.BusinessException;
 import czy.miaosha.error.EmBusinessError;
 import czy.miaosha.service.UserService;
 import czy.miaosha.service.model.UserModel;
+import czy.miaosha.utils.Convert;
 import czy.miaosha.validator.ValidationResult;
 import czy.miaosha.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
-        return convertFromEntity(userDO, userPasswordDO);
+        return Convert.convertUserModelFromUserDOAndUserPasswordDO(userDO, userPasswordDO);
     }
 
     /**
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
 
-        UserDO userDO = convertFromModel(userModel);
+        UserDO userDO = Convert.convertUserDOFromUserModel(userModel);
         try {
             userDOMapper.insertSelective(userDO);
         } catch (DuplicateKeyException ex) {
@@ -67,7 +67,8 @@ public class UserServiceImpl implements UserService {
 
         userModel.setId(userDO.getId());
 
-        UserPasswordDO userPasswordDO = convertPasswordFromModel(userModel);
+        //UserPasswordDO userPasswordDO = convertPasswordFromModel(userModel);
+        UserPasswordDO userPasswordDO = Convert.convertUserPasswordDOFromUserModel(userModel);
         userPasswordDOMapper.insertSelective(userPasswordDO);
 
         return;
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
         }
         UserPasswordDO userPasswordDO = userPasswordDOMapper.selectByUserId(userDO.getId());
-        UserModel userModel = convertFromEntity(userDO, userPasswordDO);
+        UserModel userModel = Convert.convertUserModelFromUserDOAndUserPasswordDO(userDO, userPasswordDO);
 
         //对比密码是否匹配
         if (!StringUtils.equals(encrptPassword, userModel.getEncrptPassword())) {
@@ -93,37 +94,5 @@ public class UserServiceImpl implements UserService {
         return userModel;
     }
 
-    //UserModel———>UserDO
-    private UserDO convertFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return null;
-        }
-        UserDO userDO = new UserDO();
-        BeanUtils.copyProperties(userModel, userDO);
-        return userDO;
-    }
 
-    //UserModel————>UserPasswordDO
-    private UserPasswordDO convertPasswordFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return null;
-        }
-        UserPasswordDO userPasswordDO = new UserPasswordDO();
-        userPasswordDO.setEncrptPassword(userModel.getEncrptPassword());
-        userPasswordDO.setUserId(userModel.getId());
-        return userPasswordDO;
-    }
-
-    //UserDO+UserPasswordDO————>UserModel(因为密码放在另一张表里，UserModel加入了另一张表的数据)
-    private UserModel convertFromEntity(UserDO userDO, UserPasswordDO userPasswordDO) {
-        if (userDO == null) {
-            return null;
-        }
-        UserModel userModel = new UserModel();
-        BeanUtils.copyProperties(userDO, userModel);
-        if (userPasswordDO != null) {
-            userModel.setEncrptPassword(userPasswordDO.getEncrptPassword());
-        }
-        return userModel;
-    }
 }

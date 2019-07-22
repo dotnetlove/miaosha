@@ -12,7 +12,7 @@ import czy.miaosha.service.UserService;
 import czy.miaosha.service.model.ItemModel;
 import czy.miaosha.service.model.OrderModel;
 import czy.miaosha.service.model.UserModel;
-import org.springframework.beans.BeanUtils;
+import czy.miaosha.utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -76,16 +76,16 @@ public class OrderServiceImpl implements OrderService {
         orderModel.setItemId(itemId);
         orderModel.setAmount(amount);
         //如果有活动，则设置秒杀活动价格，否则设置普通商品价格
-        if (promoId!=null){
+        if (promoId != null) {
             orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
-        }else {
+        } else {
             orderModel.setItemPrice(itemModel.getPrice());
         }
         orderModel.setPromoId(promoId);
         orderModel.setOrderPrice(orderModel.getItemPrice().multiply(new BigDecimal(amount)));
         //生成交易订单号
         orderModel.setId(generateOrderNo());
-        OrderDO orderDO = convertOrderDOFromOrderModel(orderModel);
+        OrderDO orderDO = Convert.convertOrderDOFromOrderModel(orderModel);
         orderDOMapper.insertSelective(orderDO);
 
         //4:增加商品销量
@@ -124,15 +124,5 @@ public class OrderServiceImpl implements OrderService {
         return stringBuffer.toString();
     }
 
-    //OrderModel——>OrderDO
-    private OrderDO convertOrderDOFromOrderModel(OrderModel orderModel) {
-        if (orderModel == null) {
-            return null;
-        }
-        OrderDO orderDO = new OrderDO();
-        BeanUtils.copyProperties(orderModel, orderDO);
-        orderDO.setItemPrice(orderModel.getItemPrice().doubleValue());
-        orderDO.setOrderPrice(orderModel.getOrderPrice().doubleValue());
-        return orderDO;
-    }
+
 }

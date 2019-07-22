@@ -10,14 +10,13 @@ import czy.miaosha.service.ItemService;
 import czy.miaosha.service.PromoService;
 import czy.miaosha.service.model.ItemModel;
 import czy.miaosha.service.model.PromoModel;
+import czy.miaosha.utils.Convert;
 import czy.miaosha.validator.ValidationResult;
 import czy.miaosha.validator.ValidatorImpl;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR, result.getErrMsg());
         }
         //ItemModel转换成ItemDO
-        ItemDO itemDO = this.convertItemDOFromItemModel(itemModel);
+        ItemDO itemDO = Convert.convertItemDOFromItemModel(itemModel);
 
         //写入数据库
         itemDOMapper.insertSelective(itemDO);
@@ -58,35 +57,14 @@ public class ItemServiceImpl implements ItemService {
         itemModel.setId(itemDO.getId());
 
         //ItemModel转换成ItemStockDO
-        ItemStockDO itemStockDO = this.convertItemStockFromItemModel(itemModel);
+        //ItemStockDO itemStockDO = this.convertItemStockFromItemModel(itemModel);
+        ItemStockDO itemStockDO = Convert.convertItemStockFromItemModel(itemModel);
         itemStockDOMapper.insertSelective(itemStockDO);
 
         //返回创建完成的对象
         return this.getItemById(itemModel.getId());
     }
 
-    //ItemModel——>ItemDO
-    private ItemDO convertItemDOFromItemModel(ItemModel itemModel) {
-        if (itemModel == null) {
-            return null;
-        }
-        ItemDO itemDO = new ItemDO();
-        BeanUtils.copyProperties(itemModel, itemDO);
-        //ItemModel中price是BigDecimal类型的，需要手动转换成double类型（不同类型无法复制）
-        itemDO.setPrice(itemModel.getPrice().doubleValue());
-        return itemDO;
-    }
-
-    //ItemModel——>ItemStockDO
-    private ItemStockDO convertItemStockFromItemModel(ItemModel itemModel) {
-        if (itemModel == null) {
-            return null;
-        }
-        ItemStockDO itemStockDO = new ItemStockDO();
-        itemStockDO.setItemId(itemModel.getId());
-        itemStockDO.setStock(itemModel.getStock());
-        return itemStockDO;
-    }
 
     /**
      * 商品列表
@@ -97,7 +75,8 @@ public class ItemServiceImpl implements ItemService {
         //JDK8新特性：stream流和lambada表达式
         List<ItemModel> itemModelList = itemDOList.stream().map(itemDO -> {
             ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
-            ItemModel itemModel = this.convertModelFromEntity(itemDO, itemStockDO);
+            //ItemDO+ItemStockDO——>ItemModel
+            ItemModel itemModel = Convert.convertModelFromItemDOAndItemStockDO(itemDO, itemStockDO);
             return itemModel;
         }).collect(Collectors.toList());
         return itemModelList;
@@ -115,7 +94,7 @@ public class ItemServiceImpl implements ItemService {
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
 
         //把itemDO和itemStockDO转换成itemModel
-        ItemModel itemModel = convertModelFromEntity(itemDO, itemStockDO);
+        ItemModel itemModel = Convert.convertModelFromItemDOAndItemStockDO(itemDO, itemStockDO);
 
         //获取商品活动信息
         PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
@@ -143,14 +122,5 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public void increaseSales(Integer itemId, Integer amount) throws BusinessException {
         itemDOMapper.increaseSales(itemId, amount);
-    }
-
-    //ItemDO+ItemStockDO——>ItemModel
-    private ItemModel convertModelFromEntity(ItemDO itemDO, ItemStockDO itemStockDO) {
-        ItemModel itemModel = new ItemModel();
-        BeanUtils.copyProperties(itemDO, itemModel);
-        itemModel.setPrice(new BigDecimal(itemDO.getPrice()));
-        itemModel.setStock(itemStockDO.getStock());
-        return itemModel;
     }
 }
