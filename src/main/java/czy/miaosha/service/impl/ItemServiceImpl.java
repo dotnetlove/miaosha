@@ -7,7 +7,9 @@ import czy.miaosha.entity.ItemStockDO;
 import czy.miaosha.error.BusinessException;
 import czy.miaosha.error.EmBusinessError;
 import czy.miaosha.service.ItemService;
+import czy.miaosha.service.PromoService;
 import czy.miaosha.service.model.ItemModel;
+import czy.miaosha.service.model.PromoModel;
 import czy.miaosha.validator.ValidationResult;
 import czy.miaosha.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +32,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     /**
      * 创建商品
@@ -108,9 +113,15 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
+
         //把itemDO和itemStockDO转换成itemModel
         ItemModel itemModel = convertModelFromEntity(itemDO, itemStockDO);
 
+        //获取商品活动信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        if (promoModel != null && promoModel.getStatus().intValue() != 3) {
+            itemModel.setPromoModel(promoModel);
+        }
         return itemModel;
     }
 
