@@ -7,7 +7,7 @@ import czy.miaosha.error.EmBusinessError;
 import czy.miaosha.response.CommonReturnType;
 import czy.miaosha.service.UserService;
 import czy.miaosha.service.model.UserModel;
-import org.springframework.beans.BeanUtils;
+import czy.miaosha.utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class UserController extends BaseController {
             throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
         //转换为给前端用的模型（隐藏了密码等）
-        UserVO userVO = convertFromModel(userModel);
+        UserVO userVO = Convert.convertUserVOFromUserModel(userModel);
         return CommonReturnType.create(userVO);
     }
 
@@ -115,13 +115,5 @@ public class UserController extends BaseController {
         return newStr;
     }
 
-    //把UserModel转换成UserVO
-    private UserVO convertFromModel(UserModel userModel) {
-        if (userModel == null) {
-            return null;
-        }
-        UserVO userVO = new UserVO();
-        BeanUtils.copyProperties(userModel, userVO);
-        return userVO;
-    }
+
 }

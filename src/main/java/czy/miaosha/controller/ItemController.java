@@ -5,8 +5,7 @@ import czy.miaosha.error.BusinessException;
 import czy.miaosha.response.CommonReturnType;
 import czy.miaosha.service.ItemService;
 import czy.miaosha.service.model.ItemModel;
-import org.joda.time.format.DateTimeFormat;
-import org.springframework.beans.BeanUtils;
+import czy.miaosha.utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,28 +41,10 @@ public class ItemController extends BaseController {
         itemModel.setImgUrl(imgUrl);
 
         ItemModel itemModelForReturn = itemService.createItem(itemModel);
-        ItemVO itemVO = convertVOFromModel(itemModelForReturn);
+        ItemVO itemVO = Convert.convertItemVOFromItemModel(itemModelForReturn);
         return CommonReturnType.create(itemVO);
     }
 
-    //ItemModel——>ItemVO
-    private ItemVO convertVOFromModel(ItemModel itemModel) {
-        if (itemModel == null) {
-            return null;
-        }
-        ItemVO itemVO = new ItemVO();
-        BeanUtils.copyProperties(itemModel, itemVO);
-        if (itemModel.getPromoModel() != null) {
-            //有正在进行或即将进行的秒杀活动
-            itemVO.setPromoStatus(itemModel.getPromoModel().getStatus());
-            itemVO.setPromoId(itemModel.getPromoModel().getId());
-            itemVO.setStartDate(itemModel.getPromoModel().getStartDate().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")));
-            itemVO.setPromoPrice(itemModel.getPromoModel().getPromoItemPrice());
-        } else {
-            itemVO.setPromoStatus(0);
-        }
-        return itemVO;
-    }
 
     /**
      * 商品列表页
@@ -76,7 +57,7 @@ public class ItemController extends BaseController {
 
         //使用stream API 将list内的itemModel转换成itemVO
         List<ItemVO> itemVOList = itemModelList.stream().map(itemModel -> {
-            ItemVO itemVO = this.convertVOFromModel(itemModel);
+            ItemVO itemVO = Convert.convertItemVOFromItemModel(itemModel);
             return itemVO;
         }).collect(Collectors.toList());
         return CommonReturnType.create(itemVOList);
@@ -91,7 +72,7 @@ public class ItemController extends BaseController {
 
         ItemModel itemModel = itemService.getItemById(id);
 
-        ItemVO itemVO = convertVOFromModel(itemModel);
+        ItemVO itemVO = Convert.convertItemVOFromItemModel(itemModel);
 
         return CommonReturnType.create(itemVO);
     }

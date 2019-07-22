@@ -1,11 +1,14 @@
 package czy.miaosha.utils;
 
+import czy.miaosha.controller.ViewVO.ItemVO;
+import czy.miaosha.controller.ViewVO.UserVO;
 import czy.miaosha.entity.*;
 import czy.miaosha.service.model.ItemModel;
 import czy.miaosha.service.model.OrderModel;
 import czy.miaosha.service.model.PromoModel;
 import czy.miaosha.service.model.UserModel;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.BeanUtils;
 
 import java.math.BigDecimal;
@@ -104,5 +107,34 @@ public class Convert {
         orderDO.setItemPrice(orderModel.getItemPrice().doubleValue());
         orderDO.setOrderPrice(orderModel.getOrderPrice().doubleValue());
         return orderDO;
+    }
+
+    //把UserModel转换成UserVO
+    public static UserVO convertUserVOFromUserModel(UserModel userModel) {
+        if (userModel == null) {
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(userModel, userVO);
+        return userVO;
+    }
+
+    //ItemModel——>ItemVO
+    public static ItemVO convertItemVOFromItemModel(ItemModel itemModel) {
+        if (itemModel == null) {
+            return null;
+        }
+        ItemVO itemVO = new ItemVO();
+        BeanUtils.copyProperties(itemModel, itemVO);
+        if (itemModel.getPromoModel() != null) {
+            //有正在进行或即将进行的秒杀活动
+            itemVO.setPromoStatus(itemModel.getPromoModel().getStatus());
+            itemVO.setPromoId(itemModel.getPromoModel().getId());
+            itemVO.setStartDate(itemModel.getPromoModel().getStartDate().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")));
+            itemVO.setPromoPrice(itemModel.getPromoModel().getPromoItemPrice());
+        } else {
+            itemVO.setPromoStatus(0);
+        }
+        return itemVO;
     }
 }
